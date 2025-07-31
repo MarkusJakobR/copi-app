@@ -33,9 +33,14 @@ export function clipboardWatchText(
         timestamp: Date.now(),
       };
 
-      clipboardHistory.unshift(entry);
-      clipboardHistory = clipboardHistory.slice(0, 50);
-      console.log("[Clipboard Saved]", entry);
+      if (
+        clipboardHistory.length === 0 ||
+        clipboardHistory[0].text !== currentText
+      ) {
+        clipboardHistory.unshift(entry);
+        clipboardHistory = clipboardHistory.slice(0, 50);
+        console.log("[Clipboard Saved]", entry);
+      }
 
       if (onNewEntry) {
         onNewEntry(entry);

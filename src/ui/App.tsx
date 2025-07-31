@@ -17,7 +17,12 @@ export default function App() {
     window.copi.getClipboardHistory().then(setHistory);
 
     window.copi.onNewClipboardEntry((entry) => {
-      setHistory((prev) => [entry, ...prev]);
+      setHistory((prev) => {
+        if (prev.length > 0 && prev[0].text === entry.text) {
+          return prev;
+        }
+        return [entry, ...prev].slice(0, 50);
+      });
     });
   }, []);
 
