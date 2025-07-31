@@ -1,31 +1,45 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import { useEffect, useState } from "react";
+import type { ClipboardEntry } from "../electron/clipboard.js";
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+declare global {
+  interface Window {
+    copi: {
+      getClipboardHistory: () => Promise<ClipboardEntry[]>;
+      onNewClipboardEntry: (callback: (entry: ClipboardEntry) => void) => void;
+    };
+  }
 }
 
-export default App;
+export default function App() {
+  const [history, setHistory] = useState<ClipboardEntry[]>([]);
+
+  useEffect(() => {
+    window.copi.getClipboardHistory().then(setHistory);
+
+    window.copi.onNewClipboardEntry((entry) => {
+      setHistory((prev) => [entry, ...prev]);
+    });
+  }, []);
+
+  return (
+    <div className="bg-black p-6 font-sans">
+      <h1 className="text-2xl font-bold mb-4">Copi - Clipboard History</h1>
+      {history.length === 0 ? (
+        <p className="text-gray-500"> Nothing Copied Yet</p>
+      ) : (
+        <ul>
+          {history.map((entry) => (
+            <li key={entry.id} className="p-3 border rounded shadow bg-white">
+              <div className="text-sm text-gray-700 break-all">
+                {entry.text}
+              </div>
+              <div className="text-xs text-gray-400">
+                {new Date(entry.timestamp).toLocaleTimeString()}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
