@@ -1,4 +1,22 @@
-/* src/renderer/index.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-brand: #7a3b69;
+  --color-brand-light: #9a879d;
+  --color-brand-dark: #563440;
+
+  --color-white: #ffffff;
+  --color-semiwhite: #cfcfcd;
+  --color-black: #191919;
+
+  /* Fonts */
+  --font-sans: "Roboto Mono", monospace;
+
+  /* Shadows */
+  --shadow-neumorphic:
+    inset -15px 15px 30px 0 rgba(208, 208, 208, 0.2),
+    inset 15px -15px 30px 0 rgba(208, 208, 208, 0.2),
+    inset -15px -15px 30px 0 rgba(255, 255, 255, 0.9),
+    inset 15px 15px 38px 0 rgba(208, 208, 208, 0.9);
+}

@@ -52,3 +52,13 @@ export function clipboardWatchText(
 export function getClipboardHistory(): ClipboardEntry[] {
   return clipboardHistory;
 }
+
+export function copyToClipboard(
+  text: string,
+  options?: { ignore: boolean },
+) {
+  if (options?.ignore) {
+    lastText = text;
+  }
+  clipboard.writeText(text);
+}

@@ -10,4 +10,7 @@ contextBridge.exposeInMainWorld("copi", {
       callback(entry);
     });
   },
+
+  copyToClipboard: (text: string, options?: { ignore: boolean }) =>
+    ipcRenderer.send("copyToClipboard", text, options),
 });

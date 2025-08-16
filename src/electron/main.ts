@@ -1,7 +1,11 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { isDev } from "./util.js";
-import { clipboardWatchText, getClipboardHistory } from "./clipboard.js";
+import {
+  clipboardWatchText,
+  copyToClipboard,
+  getClipboardHistory,
+} from "./clipboard.js";
 import { getPreloadPath } from "./pathResolver.js";
 
 app.on("ready", () => {
@@ -27,3 +31,10 @@ app.on("ready", () => {
 ipcMain.handle("clipboard:get-history", () => {
   return getClipboardHistory();
 });
+
+ipcMain.on(
+  "copyToClipboard",
+  (_, text: string, options?: { ignore: boolean }) => {
+    copyToClipboard(text, options);
+  },
+);
