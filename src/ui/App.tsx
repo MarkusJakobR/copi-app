@@ -15,8 +15,10 @@ declare global {
 export default function App() {
   const [history, setHistory] = useState<ClipboardEntry[]>([]);
   useEffect(() => {
+    // get clipboard history
     window.copi.getClipboardHistory().then(setHistory);
 
+    // handles adding new clipboard entries
     window.copi.onNewClipboardEntry((entry) => {
       setHistory((prev) => {
         if (prev.length > 0 && prev[0].text === entry.text) {
@@ -27,6 +29,7 @@ export default function App() {
     });
   }, []);
 
+  // function for copying in clipboard
   const handleCopy = (text: string) => {
     window.copi.copyToClipboard(text, { ignore: true });
     console.log("Copied:", text);

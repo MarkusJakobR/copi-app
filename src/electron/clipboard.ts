@@ -10,20 +10,14 @@ export interface ClipboardEntry {
 let lastText = "";
 let clipboardHistory: ClipboardEntry[] = [];
 
-/**
-export function clipboardGetText(): string {
-  const text = clipboard.readText();
-  console.log("[Clipboard]", text);
-  return text;
-}
-**/
-
+// watches changes in clipboard history
 export function clipboardWatchText(
   onNewEntry?: (entry: ClipboardEntry) => void,
   intervalMs = 1000,
 ) {
   setInterval(() => {
     const currentText = clipboard.readText();
+    // prevents recently copied text to be added again
     if (currentText && currentText !== lastText) {
       lastText = currentText;
 
@@ -38,7 +32,7 @@ export function clipboardWatchText(
         clipboardHistory[0].text !== currentText
       ) {
         clipboardHistory.unshift(entry);
-        clipboardHistory = clipboardHistory.slice(0, 50);
+        clipboardHistory = clipboardHistory.slice(0, 50); // currently at 50 maximum entries
         console.log("[Clipboard Saved]", entry);
       }
 
@@ -49,14 +43,13 @@ export function clipboardWatchText(
   }, intervalMs);
 }
 
+// updates clipboard history
 export function getClipboardHistory(): ClipboardEntry[] {
   return clipboardHistory;
 }
 
-export function copyToClipboard(
-  text: string,
-  options?: { ignore: boolean },
-) {
+// function for copying text from the clipboard
+export function copyToClipboard(text: string, options?: { ignore: boolean }) {
   if (options?.ignore) {
     lastText = text;
   }

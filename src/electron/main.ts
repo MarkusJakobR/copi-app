@@ -28,10 +28,12 @@ app.on("ready", () => {
   });
 });
 
+// function for getting clipboard history
 ipcMain.handle("clipboard:get-history", () => {
   return getClipboardHistory();
 });
 
+// copy text in clipboard, has text and boolean values
 ipcMain.on(
   "copyToClipboard",
   (_, text: string, options?: { ignore: boolean }) => {
