@@ -1,8 +1,9 @@
+import CopyButton from "./components/copy-button";
 interface CopyContentProps {
   id: string;
   text: string;
   timestamp: number;
-  onCopy: Function;
+  onCopy: (text: string) => void;
 }
 export default function ClipboardBox({
   text,
@@ -22,13 +23,17 @@ export default function ClipboardBox({
       onClick={() => onCopy(text)}
       className="relative bg-white shadow-neumorphic mt-2 rounded-2xl p-5 flex flex-col w-full justify-center items-center cursor-pointer active:scale-95 hover:scale-98 transition-transform group overflow-hidden"
     >
-      {/* Date on top left */}
-      <div className="absolute top-3 left-3 z-20 transition-all  text-gray-600 text-xs align-top pb-3">
-        {readableDate}
+      <div className="absolute top-3 left-3 right-3 flex flex-row justify-between items-start z-20 ">
+        {/* Date on top left */}
+        <div className="text-gray-600 text-xs">{readableDate}</div>
+
+        <div className="flex gap-2 items-center">
+          <CopyButton text={text} onCopy={onCopy} />
+        </div>
       </div>
 
       {/* Text content that will blur on hover */}
-      <div className="flex flex-col z-10 transition-all pt-6">
+      <div className="flex flex-col z-20 transition-all pt-10">
         <div className="text-black text-sm items-center">{text}</div>
       </div>
 
