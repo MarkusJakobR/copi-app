@@ -19,10 +19,7 @@ export default function ClipboardBox({
     second: "2-digit",
   }).format(dateObject);
   return (
-    <div
-      onClick={() => onCopy(text)}
-      className="relative bg-white shadow-neumorphic mt-2 rounded-2xl p-5 flex flex-col w-full justify-center items-center cursor-pointer active:scale-95 hover:scale-98 transition-transform group overflow-hidden"
-    >
+    <div className="relative bg-white shadow-neumorphic mt-2 rounded-2xl p-5 flex flex-col w-full justify-center items-center cursor-pointer active:scale-95 hover:scale-98 transition-transform group overflow-hidden">
       <div className="absolute top-3 left-3 right-3 flex flex-row justify-between items-start z-20 ">
         {/* Date on top left */}
         <div className="text-gray-600 text-xs">{readableDate}</div>
