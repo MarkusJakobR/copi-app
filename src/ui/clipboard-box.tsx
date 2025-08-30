@@ -19,8 +19,8 @@ export default function ClipboardBox({
     second: "2-digit",
   }).format(dateObject);
   return (
-    <div className="relative bg-white shadow-neumorphic mt-2 rounded-2xl p-5 flex flex-col w-full justify-center items-center cursor-pointer active:scale-95 hover:scale-98 transition-transform group overflow-hidden">
-      <div className="absolute top-3 left-3 right-3 flex flex-row justify-between items-start z-20 ">
+    <div className="relative bg-white shadow-neumorphic mt-2 rounded-2xl p-5 flex flex-col w-full justify-center items-center cursor-pointer active:scale-95 hover:scale-98 transition-transform group overflow-hidden z-0">
+      <div className="absolute top-3 left-3 right-3 flex flex-row justify-between items-start ">
         {/* Date on top left */}
         <div className="text-gray-600 text-xs">{readableDate}</div>
 
@@ -30,7 +30,7 @@ export default function ClipboardBox({
       </div>
 
       {/* Text content that will blur on hover */}
-      <div className="flex flex-col z-20 transition-all pt-10">
+      <div className="flex flex-col transition-all pt-10">
         <div className="text-black text-sm items-center">{text}</div>
       </div>
 
