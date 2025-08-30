@@ -40,17 +40,21 @@ export default function App() {
   const handleCopy = (text: string) => {
     window.copi.copyToClipboard(text, { ignore: true });
 
+    // count current number of "copy instances"
     const newCount = copyCount + 1;
     setCopyCount(newCount);
 
+    // create instance of a new toast
     const newToast = {
-      id: Date.now().toString(),
+      id: Date.now().toString(), // simple current date and time to string for unique id
       message: "Copied to clipboard!",
     };
 
+    // set new toasts in the array using this
     setToasts((prevToasts) => {
-      const updatedToasts = [...prevToasts, newToast];
+      const updatedToasts = [...prevToasts, newToast]; // append new toast
 
+      // check if array of toasts exceed limit
       if (updatedToasts.length > MAX_TOASTS) {
         return updatedToasts.slice(-MAX_TOASTS);
       }
@@ -58,14 +62,16 @@ export default function App() {
       return updatedToasts;
     });
 
+    // sets a timer for the toast to be removed after a certain duration
     setTimeout(() => {
-      setToasts((prevToasts) =>
-        prevToasts.filter((toast) => toast.id !== newToast.id),
+      setToasts(
+        (prevToasts) => prevToasts.filter((toast) => toast.id !== newToast.id), // filter for finding a toast and removing it from the array
       );
     }, TOAST_DURATION);
     console.log("Copied:", text);
   };
 
+  // removes toast manually if wanted to (not yet implemented)
   const removeToast = (id: string) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
   };
