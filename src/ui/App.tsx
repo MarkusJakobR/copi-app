@@ -48,6 +48,7 @@ export default function App() {
     const newToast = {
       id: Date.now().toString(), // simple current date and time to string for unique id
       message: "Copied to clipboard!",
+      closing: false,
     };
 
     // set new toasts in the array using this
@@ -65,7 +66,10 @@ export default function App() {
     // sets a timer for the toast to be removed after a certain duration
     setTimeout(() => {
       setToasts(
-        (prevToasts) => prevToasts.filter((toast) => toast.id !== newToast.id), // filter for finding a toast and removing it from the array
+        (prevToasts) =>
+          prevToasts.map((toast) =>
+            toast.id === newToast.id ? { ...toast, closing: true } : toast,
+          ), // filter for finding a toast and removing it from the array
       );
     }, TOAST_DURATION);
     console.log("Copied:", text);

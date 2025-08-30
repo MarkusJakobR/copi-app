@@ -1,10 +1,12 @@
 import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/solid";
 import { createPortal } from "react-dom";
+import { useState, useEffect } from "react";
 
 export interface Toast {
   id: string;
   count?: number;
   message: string;
+  closing: boolean;
 }
 
 interface ToastBoxProps {
@@ -14,9 +16,31 @@ interface ToastBoxProps {
   onClose: () => void;
 }
 export function ToastBox({ toast, index, isVisible, onClose }: ToastBoxProps) {
+  const [isAnimatingIn, setIsAnimatingIn] = useState(false);
+
+  // for the slide in effect of the toast
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimatingIn(true);
+    }, 10);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // for the slide out effect of the toast
+  useEffect(() => {
+    // checks if the toast.closing variable is true, passed from the App.tsx
+    if (toast.closing) {
+      setIsAnimatingIn(false);
+
+      const outTimer = setTimeout(() => {
+        onClose();
+      }, 500);
+      return () => clearTimeout(outTimer);
+    }
+  }, [toast.closing, onClose]);
   return (
     <div
-      className={`fixed top-4 right-4 transition-all duration-300 drop-shadow-2xl ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 pointer-events-none"}`}
+      className={`fixed top-4 right-4 transition-transform duration-500 drop-shadow-2xl ${isAnimatingIn ? "ease-out translate-x-0" : "ease-in translate-x-[calc(100%+1rem)]"}`}
       style={{
         top: `${16 + index * 18}px`,
         zIndex: 100 - index,
