@@ -50,6 +50,7 @@ export function getClipboardHistory(): ClipboardEntry[] {
 
 // function for copying text from the clipboard
 export function copyToClipboard(text: string, options?: { ignore: boolean }) {
+  console.log("Copying to clipboard:", text, "(type:", typeof text, ")");
   if (options?.ignore) {
     lastText = text;
   }

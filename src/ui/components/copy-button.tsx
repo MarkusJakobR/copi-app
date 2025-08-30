@@ -1,5 +1,4 @@
 import { ClipboardDocumentIcon } from "@heroicons/react/24/solid";
-import ToastBox from "./toast";
 import React, { useState } from "react";
 
 interface CopyButtonProps {
@@ -7,23 +6,9 @@ interface CopyButtonProps {
   text: string;
 }
 export default function CopyButton({ onCopy, text }: CopyButtonProps) {
-  const [showToast, setShowToast] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
   const handleClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-
-    try {
-      await navigator.clipboard.writeText(text);
-      onCopy(text);
-
-      setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), 200);
-
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
+    onCopy(text);
   };
   return (
     <>
@@ -33,11 +18,6 @@ export default function CopyButton({ onCopy, text }: CopyButtonProps) {
       >
         <ClipboardDocumentIcon className="text-white w-4 h-4" />
       </div>
-      <ToastBox
-        message="Copied to clipboard!"
-        isVisible={showToast}
-        onClose={() => setShowToast(false)}
-      />
     </>
   );
 }
